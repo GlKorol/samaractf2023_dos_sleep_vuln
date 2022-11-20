@@ -1,0 +1,10 @@
+FROM python:3-slim
+
+RUN useradd -ms /bin/bash debian
+RUN pip install --no-cache-dir quart gunicorn uvicorn asyncio
+WORKDIR /home/debian/web
+ADD web_async.py run_async.sh /home/debian/web/
+RUN chown -R debian:debian /home/debian/web
+USER debian
+EXPOSE 8001
+CMD /bin/bash run_async.sh
